@@ -1,51 +1,64 @@
-// Nim Super Duper Simple (no input validation)
-var count = 0; var playerInput = 0; var cpuInput = 0; var winner=null; var validBool = false;
-alert("Welcome to Nim! You go first.");
+var count = 0, turn = 0, winner="none";
+var again = true;
+var token = 0; // 0 for Player || 1 for CPU
 
-while (count<21) {
-   winner="CPU";
-   count+=playerTurn();
-   alert("Current count is "+count);
-   if (count<21) {
-      winner="you"; 
-	  if ((count+=cpuTurn()) < 21) {
-		  count+=cpuTurn();
-	  }
-	  else {
-		  break;
-	  }
-      alert("Current count is "+count);
-   }
-}
-alert(winner+" won!");
+alert("Let\'s play Nim. You (may) go first.");
 
-function playerTurn(){
-  while (validBool == false) {
-	  var turn = prompt("Count how many? (1-3)");
-	  if (validate(Number(turn)) == true) {
-		  return Number(turn);
-	  }
-	  else {
-		  alert("Not valid value, try again");
-	  }
-}
-
-function cpuTurn(){
-  var turn=Math.floor(Math.random()*3)+1;
-  alert("CPU counts "+turn+".");
-  return turn;
-}
-
-function validate(input) {
-	if (input.isInteger() == true) {
-		if (0<input<4) {
-			return true;
+while(again==true) {
+	while(winner=="none"){
+		if (token == 0) {
+			if (count < 21)	count = userTurn(count);
+			token = 1;
 		}
 		else {
-			return false;
+			token = 0;
+			if (count == 20) {
+				winner = "User";
+				alert("Computer lost.");
+			}
+			else if (count > 20) {
+				winner = "CPU";
+				alert ("You lost.");
+			}
+			else count = cpuTurn(count);
 		}
 	}
+	again = playAgain();
+}
+
+function userTurn(count) {
+	var turn=0;
+	var goodTurn = false;
+	while (goodTurn == false) {
+		turn = prompt("Enter 1, 2 or 3");
+		if (turn > 0 && turn < 4 && Math.floor(turn)==turn) goodTurn=true;
+		else alert("Invalid Input");
+	}
+	count += Number(turn);
+	alert("Count is now "+count);
+	return count;
+}
+
+function cpuTurn(count){
+	var goodTurn = false;
+	var turn=0;
+	while (goodTurn == false) {
+		turn = Math.floor(Math.random()*3)+1;
+		if (turn == 1 || turn > 1 && count+turn < 21) goodTurn = true;
+	}
+	alert("CPU counts "+turn);
+	count += turn;
+	alert("Count is now "+count);
+	return count;
+}
+
+function playAgain() {
+	var againAsk = prompt("Would you like to play again? y or n");
+	if (againAsk == "y") {
+		return true
+	}
 	else {
+		alert("Ciao");
 		return false;
 	}
 }
