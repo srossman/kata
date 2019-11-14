@@ -5,6 +5,8 @@ var token = 0; // 0 for Player || 1 for CPU
 alert("Let\'s play Nim. You (may) go first.");
 
 while(again==true) {
+	winner="none";
+	
 	while(winner=="none"){
 		if (token == 0) {
 			if (count < 21)	count = userTurn(count);
