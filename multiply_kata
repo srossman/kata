@@ -1,0 +1,69 @@
+var min=0;
+var max=0;
+var howMany=0;
+var userAnswer = "";
+var totalWrongAnswers = 0;
+
+main();
+
+function main(){
+  setup();
+  for(let i=0;i<howMany;i++){
+    if(userAnswer=="stop"){
+      break;
+    }
+    var wrongAnswers = questioner();
+    if (wrongAnswers>0){
+      totalWrongAnswers++;
+    }
+  }
+  if(end()==true){
+    main();
+  }
+  else{
+    alert("Thanks for playing!");
+  }
+}
+
+function setup(){
+  min=parseInt(prompt("What is the min #"));
+  max=parseInt(prompt("What is the max #"));
+  howMany=parseInt(prompt("How many questions?"));
+}
+
+function questioner(){
+  var randOne = Math.floor(Math.random()*(max-min))+min;
+  var randTwo = Math.floor(Math.random()*(max-min))+min;
+  var solution = randOne * randTwo;
+  var wrongAnswers = 0;
+  
+  while(userAnswer!=solution && userAnswer!="stop"){
+    alert(randOne + "*" + randTwo + "= ?");
+    userAnswer = prompt("? = __");
+    var correct = userInput(userAnswer,solution);
+    if(correct == 0){
+      alert("crrect!");
+    }
+    else {
+      alert("invcrect");
+      wrongAnswers++;
+    }
+  }
+  return wrongAnswers;
+}
+
+function userInput(userAnswer,solution){
+  if(userAnswer == solution) return 0;
+  else return 1;
+}
+
+function end(){
+  if (totalWrongAnswers==0){
+    alert("Charlie, you've won!");
+  }
+  else {
+    alert("Wrong Answers: " + totalWrongAnswers);
+  }
+  var again = confirm("play again?");
+  return again;
+}
