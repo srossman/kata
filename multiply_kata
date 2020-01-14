@@ -32,8 +32,8 @@ function setup(){
 }
 
 function questioner(){
-  var randOne = Math.floor(Math.random()*(max-min))+min;
-  var randTwo = Math.floor(Math.random()*(max-min))+min;
+  var randOne = Math.floor(Math.random()*((max-min)+1))+min;
+  var randTwo = Math.floor(Math.random()*((max-min)+1))+min;
   var solution = randOne * randTwo;
   var wrongAnswers = 0;
   
